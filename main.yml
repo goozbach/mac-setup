@@ -1,0 +1,154 @@
+---
+- name: setup mac environment
+  hosts: mylaptop
+  connection: local
+
+  sudo: false
+
+  handlers:
+    - name: unmount fuse filesystems
+      shell: mount -t osxfusefs
+
+    - name: unload fuse filesystems
+      shell: kextunload -b com.github.osxfuse.filesystems.osxfusefs
+      sudo: True
+      ignore_errors: True
+
+    - name: install osxfuse bundle
+      shell: /bin/cp -RfX /usr/local/opt/osxfuse/Library/Filesystems/osxfusefs.fs /Library/Filesystems/
+      sudo: True
+
+    - name: chmod osxfuse bundle
+      shell: chmod +s /Library/Filesystems/osxfusefs.fs/Support/load_osxfusefs
+      sudo: True
+
+  tasks:
+
+    - name: brew tap install
+      homebrew_tap: tap="{{ item }}" state=present
+      with_items:
+          - "owncloud/owncloud"
+
+    - name: brew install
+      homebrew: name="{{ item }}" state=latest
+      with_items:
+          - git
+          - binutils
+          - cvs
+          - tmux
+          - vim
+          - plan9port
+          - ack
+          - apg
+          - asciidoc
+          - aspell
+          - 'bash-completion'
+          - coreutils
+          - elinks
+          - wget
+          - gpg-agent
+          - keepassc
+          - mtr
+          - nmap
+          - 'peg-markdown'
+          - pyenv
+          - 'pyenv-virtualenv'
+          - 'pyenv-virtualenvwrapper'
+          - 'rdiff-backup'
+          - ssh-copy-id
+          - stow
+          - tree
+          - z
+          - weechat
+          - iniparser
+          # - qtkeychain # TODO broken
+          - pandoc
+          #- 'homebrew/completions/vagrant-completion' #broken
+      tags:
+        - install
+        - homebrew
+
+    - name: install osxfuse
+      homebrew: name=osxfuse state=latest
+      tags:
+        - install
+        - homebrew
+      notify:
+        #- unmount fuse filesystems # make better TODO
+        - unload fuse filesystems
+        - install osxfuse bundle
+        - chmod osxfuse bundle
+
+    - name: bootstrap brew cask
+      shell: brew install caskroom/cask/brew-cask creates=/usr/local/Cellar/brew-cask/0.39.3
+      sudo: true
+      tags:
+        - install
+        - homebrew
+        - bootstrap
+        - cask
+
+    - name: brew cask install
+      homebrew_cask: name="{{ item }}" state=installed
+      with_items:
+          - atom
+          - chromium
+          - dia
+          - divvy
+          - "dropbox-encore"
+          - dropbox
+          - evernote
+          - freemind
+          - gimp
+          # - gpgtools #discover if gpgtools is same as gpg suite
+          # - handbrake # if personal
+          # - handbrakebatch # if personal
+          # - handbrakecli # if personal
+          - inkscape
+          - iterm2
+          # - joinme # if personal
+          - keepassx
+          - 'komodo-edit'
+          - 'lastpass-universal'
+          #- minecraft # if personal
+          - owncloud
+          #- prey # TODO fix
+          #- sickbeard # if personal
+          - silverlight
+          - sketchup
+          - sketchupviewer
+          # - snes9x # if personal
+          - sshfs
+          - xquartz
+          - virtualbox
+          - vagrant
+          - vagrant-manager
+      tags:
+        - install
+        - homebrew
+        - cask
+
+    - name: pip install
+      pip: name="{{item}}" state=latest
+      sudo: yes
+      with_items:
+        - Flask
+      tags:
+        - install
+        - pip
+
+    - name: easy install
+      easy_install: name="{{item}}"
+      sudo: yes
+      with_items:
+        - six
+        - stormssh
+      tags:
+        - install
+        - easyinstall
+
+    - name: "ensure /mnt directory"
+      file: dest=/mnt state=directory owner=root group=wheel mode=1777
+      sudo: True
+      tags:
+        - fuse
