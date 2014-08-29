@@ -128,6 +128,15 @@
         - homebrew
         - cask
 
+    - name: brew cask install
+      homebrew_cask: name="gpgtools" state=installed
+      sudo: yes
+      tags:
+        - install
+        - homebrew
+        - cask
+        - gpg
+
     - name: pip install
       pip: name="{{item}}" state=latest
       sudo: yes
