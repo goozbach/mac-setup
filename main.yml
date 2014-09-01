@@ -22,6 +22,12 @@
       shell: chmod +s /Library/Filesystems/osxfusefs.fs/Support/load_osxfusefs
       sudo: True
 
+    - name: stowdir make
+      shell: "cd ~/Projects/stowdir && PREFIX=${HOME}/stowdir make"
+
+    - name: acme make
+      shell: "cd ~/Projects/acme-tools && PREFIX=${HOME}/stowdir make"
+
   tasks:
 
     - name: brew tap install
@@ -161,3 +167,36 @@
       sudo: True
       tags:
         - fuse
+
+    - name: ensure some directories
+      file: dest={{ item }} state=directory 
+      with_items:
+        - "~/Projects"
+        - "~/stowdir"
+        - "~/tmp"
+      tags:
+        - directories
+        - homedir
+        - bootstrap
+
+    - name: checkout stowdir
+      git: src=https://github.com/goozbach/StowDir.git dest="~/Projects/stowdir"
+      tags:
+        - git
+        - directories
+        - stowdir
+        - stow
+      notify:
+        - stowdir make
+
+    - name: checkout acme tools
+      git: src=https://github.com/goozbach/acme-tools.git dest="~/Projects/acme-tools"
+      tags:
+        - git
+        - directories
+        - stow
+        - acme-tools
+      notify:
+        - acme make
+
+    
