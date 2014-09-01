@@ -180,7 +180,7 @@
         - bootstrap
 
     - name: checkout stowdir
-      git: src=https://github.com/goozbach/StowDir.git dest="~/Projects/stowdir"
+      git: repo=https://github.com/goozbach/StowDir.git dest="~/Projects/stowdir"
       tags:
         - git
         - directories
@@ -190,7 +190,7 @@
         - stowdir make
 
     - name: checkout acme tools
-      git: src=https://github.com/goozbach/acme-tools.git dest="~/Projects/acme-tools"
+      git: repo=https://github.com/goozbach/acme-tools.git dest="~/Projects/acme-tools"
       tags:
         - git
         - directories
