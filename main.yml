@@ -23,10 +23,13 @@
       sudo: True
 
     - name: stowdir make
-      shell: "cd ~/Projects/stowdir && PREFIX=${HOME}/stowdir make"
+      shell: "cd ~/stowdir && make"
 
     - name: acme make
       shell: "cd ~/Projects/acme-tools && PREFIX=${HOME}/stowdir make"
+
+    - name: writing tools make
+      shell: "cd ~/Projects/writing-tools && PREFIX=${HOME}/stowdir make"
 
   tasks:
 
@@ -180,7 +183,7 @@
         - bootstrap
 
     - name: checkout stowdir
-      git: repo=https://github.com/goozbach/StowDir.git dest="~/Projects/stowdir"
+      git: repo=https://github.com/goozbach/StowDir.git dest="~/stowdir"
       tags:
         - git
         - directories
@@ -195,8 +198,17 @@
         - git
         - directories
         - stow
-        - acme-tools
+        - 'acme-tools'
+        - acme
       notify:
         - acme make
 
-    
+    - name: checkout writing tools
+      git: repo=https://github.com/goozbach/weasel-words.git dest="~/Projects/writing-tools"
+      tags:
+        - git
+        - directories
+        - stow
+        - 'writing-tools'
+      notify:
+        - writing tools make
