@@ -31,6 +31,12 @@
     - name: writing tools make
       shell: "cd ~/Projects/writing-tools && PREFIX=${HOME}/stowdir make"
 
+    - name: link bitlbee
+      shell: "ln -sfv /usr/local/opt/bitlbee/*.plist ~/Library/LaunchAgents"
+
+    - name: launch bitlbee
+      shell: "launchctl load ~/Library/LaunchAgents/homebrew.mxcl.bitlbee.plist"
+
   tasks:
 
     - name: brew tap install
@@ -38,11 +44,20 @@
       with_items:
           - "owncloud/owncloud"
 
+    - name: bitlbee install
+      homebrew: name=bitlbee state=latest update_homebrew=yes install_options=with-finch,with-libotr
+      tags:
+        - install
+        - homebrew
+        - bitlbee
+      notify:
+        - link bitlbee
+        - launch bitlbee
+
     - name: brew install
-      homebrew: name="{{ item }}" state=latest
+      homebrew: name="{{ item }}" state=latest update_homebrew=yes
       with_items:
           - git
-          - bitlbee
           - binutils
           - cvs
           - tmux
