@@ -45,7 +45,7 @@
           - "owncloud/owncloud"
 
     - name: bitlbee install
-      homebrew: name=bitlbee state=latest update_homebrew=yes install_options=with-finch,with-libotr
+      homebrew: name=bitlbee state=latest update_homebrew=yes install_options=with-libotr
       tags:
         - install
         - homebrew
