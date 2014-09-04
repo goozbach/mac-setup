@@ -42,10 +42,12 @@
       homebrew: name="{{ item }}" state=latest
       with_items:
           - git
+          - bitlbee
           - binutils
           - cvs
           - tmux
           - vim
+          - sox
           - plan9port
           - ack
           - apg
