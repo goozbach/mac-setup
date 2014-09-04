@@ -60,6 +60,7 @@
           - git
           - binutils
           - cvs
+          - imagemagick
           - tmux
           - vim
           - sox
