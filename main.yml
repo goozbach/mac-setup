@@ -43,6 +43,8 @@
       homebrew_tap: tap="{{ item }}" state=present
       with_items:
           - "owncloud/owncloud"
+          - "homebrew/completions"
+          - "homebrew/binary"
 
     - name: bitlbee install
       homebrew: name=bitlbee state=latest update_homebrew=yes install_options=with-libotr
@@ -61,6 +63,7 @@
           - binutils
           - cvs
           - imagemagick
+          - rename
           - tmux
           - vim
           - sox
@@ -69,6 +72,8 @@
           - apg
           - asciidoc
           - aspell
+          - packer
+          - 'packer-completion'
           - 'bash-completion'
           - coreutils
           - elinks
