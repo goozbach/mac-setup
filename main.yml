@@ -46,6 +46,30 @@
           - "homebrew/completions"
           - "homebrew/binary"
 
+    - name: newt install
+      homebrew: name=newt state=latest update_homebrew=yes install_options=with-python
+      tags:
+        - install
+        - homebrew
+
+    - name: ensure ~/Library/Python/2.7/lib/python/site-packages directory
+      file: path=~/Library/Python/2.7/lib/python/site-packages state=directory
+      tags:
+        - install
+        - homebrew
+
+    - name: ensure /Users/derekcarter/Library/Python/2.7/lib/python/site-packages/homebrew.pth exists
+      file: path=~/Library/Python/2.7/lib/python/site-packages/homebrew.pth state=touch mode=0644
+      tags:
+        - install
+        - homebrew
+
+    - name: ensure ~/Library/Python/2.7/lib/python/site-packages/ paths are there
+      lineinfile: dest=~/Library/Python/2.7/lib/python/site-packages/homebrew.pth line='/usr/local/lib/python2.7/site-packages' 
+      tags:
+        - install
+
+
     - name: bitlbee install
       homebrew: name=bitlbee state=latest update_homebrew=yes install_options=with-libotr
       tags:
@@ -59,6 +83,9 @@
     - name: brew install
       homebrew: name="{{ item }}" state=latest update_homebrew=yes
       with_items:
+          - bash
+          - readline
+          - byobu
           - git
           - binutils
           - cvs
@@ -95,6 +122,7 @@
           - iniparser
           # - qtkeychain # TODO broken
           - pandoc
+          - qemu
           #- 'homebrew/completions/vagrant-completion' #broken
       tags:
         - install
