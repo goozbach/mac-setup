@@ -69,6 +69,12 @@
       tags:
         - install
 
+    - name: weechat install
+      homebrew: name=weechat state=latest update_homebrew=yes install_options=with-perl,with-python,with-ruby,with-lua
+      tags:
+        - install
+        - weechat
+        - homebrew
 
     - name: bitlbee install
       homebrew: name=bitlbee state=latest update_homebrew=yes install_options=with-libotr
@@ -83,6 +89,7 @@
     - name: brew install
       homebrew: name="{{ item }}" state=latest update_homebrew=yes
       with_items:
+          - 'git-flow'
           - bash
           - readline
           - byobu
@@ -118,7 +125,6 @@
           - stow
           - tree
           - z
-          - weechat
           - iniparser
           # - qtkeychain # TODO broken
           - pandoc
