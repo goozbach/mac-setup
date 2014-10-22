@@ -89,7 +89,8 @@
     - name: brew install
       homebrew: name="{{ item }}" state=latest update_homebrew=yes
       with_items:
-          - 'git-flow'
+          - 'fswatch'
+          #- 'git-flow'
           - bash
           - readline
           - byobu
