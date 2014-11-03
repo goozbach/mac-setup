@@ -89,6 +89,7 @@
     - name: brew install
       homebrew: name="{{ item }}" state=latest update_homebrew=yes
       with_items:
+          - 'hg'
           - 'fswatch'
           #- 'git-flow'
           - bash
@@ -99,6 +100,7 @@
           - cvs
           - imagemagick
           - rename
+          - dos2unix
           - tmux
           - vim
           - sox
@@ -209,6 +211,7 @@
       sudo: yes
       with_items:
         - Flask
+        - csvkit
       tags:
         - install
         - pip
