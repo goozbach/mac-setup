@@ -86,12 +86,21 @@
         - link bitlbee
         - launch bitlbee
 
+    - name: gem install nokogiri
+      gem: name=nokogiri state=present version=1.6.4.1
+      tags:
+        - install
+        - gem
+
     - name: brew install
       homebrew: name="{{ item }}" state=latest update_homebrew=yes
       with_items:
+          - links
           - 'hg'
           - 'fswatch'
           #- 'git-flow'
+          - graphviz
+          - ghostscript
           - bash
           - readline
           - byobu
@@ -164,6 +173,7 @@
           - chromium
           - dia
           - divvy
+          - diffmerge
           - "dropbox-encore"
           - dropbox
           - evernote
