@@ -1,2 +1,2 @@
 all:
-	ansible-playbook -i hosts main.yml -K
+	ansible-playbook -i inv main.yml -K
