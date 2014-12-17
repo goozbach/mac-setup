@@ -1,2 +1,2 @@
 all:
-	ansible-playbook -i inv main.yml -K
+	sudo ansible-playbook -i inv main.yml
